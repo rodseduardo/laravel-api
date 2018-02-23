@@ -18,6 +18,6 @@ Route::group(['middleware'=>['cors', 'auth:api']], function (){
         return $request->user();
     });
 
-    Route::resource('/products', 'Api\ProductsController');
 });
+Route::resource('/products', 'Api\ProductsController');
 
