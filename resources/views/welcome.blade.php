@@ -7,6 +7,9 @@
 
     <title>Laravel</title>
 
+    <link rel="shortcut icon" href="{{  URL::to('/') }}/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
