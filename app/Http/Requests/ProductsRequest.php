@@ -24,7 +24,10 @@ class ProductsRequest extends FormRequest
     public function rules()
     {
         return [
+            'lm' => 'required',
             'name' => 'required',
+            'free_shipping' => 'required',
+            'price' => 'required',
         ];
     }
 }

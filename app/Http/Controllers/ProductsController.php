@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Products;
 use App\Http\Requests\ProductsRequest as Request;
+use Excel;
 
 class ProductsController extends Controller
 {
@@ -26,7 +27,42 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        return Products::create($request->all());
+
+    if($request->hasFile('file')){
+        $extension = File::extension($request->file->getClientOriginalName());
+        if ($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
+
+            $path = $request->file->getRealPath();
+            $data = Excel::load($path, function($reader) {
+            })->get();
+            if(!empty($data) && $data->count()){
+
+                foreach ($data as $key => $value) {
+                    $insert[] = [
+                        'lm' => $value->lm,
+                        'name' => $value->name,
+                        'free_shipping' => $value->free_shipping,
+                        'description' => $value->description,
+                        'price' => $value->price,
+                    ];
+                }
+
+                if(!empty($insert)){
+
+                    $insertData = Products::create($insert);
+                    if ($insertData) {
+                        return $insertData;
+                    }else {
+                        return 'Falha ao gravar dados';
+                    }
+                }
+            }
+
+        }else {
+            return 'O Tipo de arquivo inseriod é: '. $extension .', favor fazer upload nos formatos: xls/csv ';
+        }
+    }
+
     }
 
     /**
